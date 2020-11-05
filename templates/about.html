@@ -5,10 +5,28 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <meta name="author" content="Brian Pinto">
-        <meta name="description" content=" ">
-        <title>About Page</title>
+        <meta name="description" content="Description about the app">
+        <title>App: Spell Checker: About</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     </head>
     <body>
-        <p></p>
+        <header class="header">
+            <nav class="navbar">
+                <div class="navbar-left">
+                    <div class="nav-link-wrapper">
+                        <a href="{{ url_for('home') }}">Home</a>
+                    </div>
+                    <div class="nav-link-wrapper nav-link-active">
+                        <a href="{{ url_for('about') }}">About</a>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <div class="my-name">
+                        Brian Pinto
+                    </div>
+                </div>
+            </nav>
+        </header>
     </body>
 </html>

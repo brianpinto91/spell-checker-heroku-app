@@ -5,11 +5,53 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <meta name="author" content="Brian Pinto">
-        <meta name="description" content=" ">
+        <meta name="description" content="An application that can be used check spelling and get recomendation words">
         <meta name="keywords" content="SPELL-CHECK, ENGLISH, WEBAPP, HEROKU">
-        <title>Home Page</title>
+        <title>App: Spell Checker: Home</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     </head>
     <body>
-        <p></p>
+        <header class="header">
+            <nav class="navbar">
+                <div class="navbar-left">
+                    <div class="nav-link-wrapper nav-link-active">
+                        <a href="{{ url_for('home') }}">Home</a>
+                    </div>
+                    <div class="nav-link-wrapper">
+                        <a href="{{ url_for('about') }}">About</a>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <div class="my-name">
+                        Brian Pinto
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class=content>
+            <div class="app-heading">
+                <h1>Welcome to the SpellChecker App!</h1>
+            </div>
+            <div class="instruction">
+                <p>Please type your word to check the spelling:</p>
+            </div>
+            <div class="input-wrapper">
+                <form id="input-form" action="{{ url_for('spellcheck') }}" method="POST">
+                    <textarea id="input-text" name="input-text"></textarea>
+                    <div class="buttons-wrapper">
+                        <button class="button" type="submit">Submit</button>
+                        <button class="button" type="reset">Clear</buttion>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-wrapper">
+                <div class="copyright-wrapper">
+                    &copy 2020 Brian Pinto
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
