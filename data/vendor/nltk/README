@@ -1,0 +1,5 @@
+Wordlists downloaded using nltk package. The file is pickled to improve speed of reading
+compared to text file. 
+
+en: English, http://en.wikipedia.org/wiki/Words_(Unix)
+
