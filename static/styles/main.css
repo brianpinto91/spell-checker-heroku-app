@@ -5,6 +5,7 @@
     --container-border-radius: 25px;
     --navbar-fill: white;
     --navbar-inactive-color: #4a4a4a;
+    --text-box-border-color: #0b54f3;
   }
   
   body{
@@ -106,65 +107,6 @@
   /*body styles*/
   .content{
     margin-top: 120px;
-    text-align: center;
-  }
-
-  .instruction{
-    color: white;
-    font-size: 20px;
-  }
-
-  #input-box{
-    border-style: solid;
-    border-radius: var(--container-border-radius);
-    border-color: green;
-    background-color: var(--navbar-fill);
-  }
-
-  textarea {
-    width: 400px;
-    height: 100px;
-    border-style: 3px solid;
-    border-color: black;
-    background-color: var(--navbar-fill);
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  textarea:focus {
-    width: 400px;
-    height: 100px;
-    border-style: 3px solid;
-    border-color:green;
-    background-color: var(--navbar-fill);
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .buttons-wrapper{
-    margin-top: 20px;
-  }
-
-  .button{
-    color: black;
-    background-color: var(--navbar-fill);
-  }
-
-  .prediction-container{
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .prediction-wrapper{
-    width: 400px;
-    height: 100px;
-    background-color: var(--navbar-fill);
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto
   }
 
   .app-heading{
@@ -173,6 +115,53 @@
     font-family: Lobster, serif;
   }
 
+  .display-container{
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 15px 15px 15px;
+  }
+
+  textarea {
+    width: 400px;
+    height: 100px;
+    background-color: var(--navbar-fill);
+    font-size: 16px;
+    border-color: var(--text-box-border-color);
+    border-width: 4px;
+    padding: 5px 5px 5px 5px; 
+  }
+
+  .buttons-wrapper{
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .button{
+    color: black;
+    background-color: var(--navbar-fill);
+  }
+
+  .output-wrapper{
+    width: 400px;
+    height: 100px;
+    background-color: var(--navbar-fill);
+    color: black;
+    font-size: 16px;
+    border: solid;
+    border-color: var(--text-box-border-color);
+    border-width: 4px;
+    padding: 5px 5px 5px 5px; 
+  }
+  
+  .output-place-holder{
+    margin: 5px 5px 5px 5px;
+    color: lightgray;
+  }
+
+  .output-text{
+    margin: 5px 5px 5px 5px;
+    color: black;
+  }
 
   .footer-wrapper{
     margin-top: 120px;

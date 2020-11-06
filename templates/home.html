@@ -33,17 +33,23 @@
             <div class="app-heading">
                 <h1>Welcome to the SpellChecker App!</h1>
             </div>
-            <div class="instruction">
-                <p>Please type your word to check the spelling:</p>
-            </div>
-            <div class="input-wrapper">
-                <form id="input-form" action="{{ url_for('spellcheck') }}" method="POST">
-                    <textarea id="input-text" name="input-text"></textarea>
-                    <div class="buttons-wrapper">
-                        <button class="button" type="submit">Submit</button>
-                        <button class="button" type="reset">Clear</buttion>
+            <div class="display-container">
+                <div class="left-container">
+                    <div class="input-wrapper">
+                        <form class="input-form" action="{{ url_for('home') }}" method="POST">
+                            <textarea id="input-text" name="input-text" placeholder="{{ input_placeholder }}"></textarea>
+                            <div class="buttons-wrapper">
+                                <button class="button" type="submit">Submit</button>
+                                <button class="button" type="reset">Clear</buttion>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+                <div class="right-container">
+                    <div class="output-wrapper">
+                        <p class="{{ output_style }}">{{ output }}</p>
+                    </div>
+                </div>
             </div>
         </main>
         <footer>

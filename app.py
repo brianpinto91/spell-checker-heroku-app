@@ -4,20 +4,26 @@ import nltk
 
 app = flask.Flask(__name__, template_folder="./templates")
 
-@app.route("/", methods=['GET'])
-@app.route("/home", methods=['GET'])
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def home():
-    return flask.render_template("home.html")
+    if flask.request.method == 'GET':
+        output_style = "output-place-holder"
+        in_placeholder = "enter your word here and click submit to check for spelling"
+        out_placeholder = "output will be displayed here"
+        return flask.render_template("home.html", output_style = output_style, 
+                                     input_placeholder = in_placeholder, output = out_placeholder)
+    else:
+        output_style = "output-text"
+        input_word = flask.request.form['input-text']
+        closest_words = get_nearest_words(input_word, 3, 3)
+        in_placeholder = "enter your word here and click submit to check for spelling\n\nlast entered word: " + input_word
+        return flask.render_template("home.html", output_style = output_style, 
+                                     input_placeholder = in_placeholder, output = closest_words)
 
 @app.route("/about", methods=['GET'])
 def about():
     return flask.render_template("about.html")
-
-@app.route("/spellcheck", methods=['POST'])
-def spellcheck():
-    input_word = flask.request.form['input-text']
-    closest_words = get_nearest_words(input_word, 3, 3)
-    return "<p>" + closest_words + "<p>"
 
 with open("./data/vendor/nltk/vocab.pkl", "rb") as filehandler:
     vocab = pickle.load(filehandler)
