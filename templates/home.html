@@ -32,6 +32,7 @@
         <main class=content>
             <div class="app-heading">
                 <h1>Welcome to the SpellChecker App!</h1>
+                <p style="font-family: monospace;">(The app currently supports <u>English</u> language only!)</p>
             </div>
             <div class="display-container">
                 <div class="left-container">
@@ -47,7 +48,15 @@
                 </div>
                 <div class="right-container">
                     <div class="output-wrapper">
-                        <p class="{{ output_style }}">{{ output }}</p>
+                        <p class="{{ output_style }}">
+                            {% for item in output %}
+                                {% if loop.index0==0 %}
+                                    {{ item }}<br/>
+                                {% else %}
+                                    <a href="https://dictionary.cambridge.org/dictionary/english/{{item}}" target="_blank">{{ item }}</a><br/>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
                     </div>
                 </div>
             </div>
