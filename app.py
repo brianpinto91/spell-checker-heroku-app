@@ -76,9 +76,13 @@ def get_output_text(spelling_correct, input_word, closest_word_list):
         dictionary = PyDictionary(input_word)
         meanings_dict = dictionary.getMeanings()[input_word]
         meaning_text = []
-        for key, value in meanings_dict.items():
-            meaning_text.append("{}: {}".format(key, value[0])) #include only first entry for each category of noun, verb etc
-        return ["Match found 😁. Did you mean?"] + [[input_word, meaning_text]]
+        if meanings_dict is not None:
+            for key, value in meanings_dict.items():
+                meaning_text.append("{}: {}".format(key, value[0])) #include only first entry for each category of noun, verb etc
+            return ["Match found 😁. Did you mean?"] + [[input_word, meaning_text]]
+        else:
+            return ["Match found 😁. Did you mean?"] + [[input_word, 
+                    ["This word is in English vocab, but its meaning could not be found in built-in dictionary"]]]    
     else:
         if len(closest_word_list) == 0:
             return ["Strange word! You must be playing around 😋"]
