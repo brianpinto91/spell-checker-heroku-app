@@ -153,12 +153,12 @@
     padding: 5px 5px 5px 5px; 
   }
   
-  .output-place-holder{
+  .output-without-content{
     margin: 5px 5px 5px 5px;
     color: lightgray;
   }
 
-  .output-text{
+  .output-with-content{
     margin: 5px 5px 5px 5px;
     color: black;
   }

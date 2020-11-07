@@ -49,15 +49,15 @@
                 <div class="right-container">
                     <div class="output-wrapper">
                         <p class="{{ output_style }}">
-                            {% for out in output %}
+                            {% for item in result %}
                                 {% if loop.index0==0 %}
-                                    {{ out }}<br/>
+                                    {{ item }}<br/>
                                 {% else %}
                                     <ul>
                                         <li>
-                                            <b><u>{{ out[0] }}</u></b> <!--out[0] contains the word and out[1] contains its meaning-->
+                                            <b><u>{{ item[0] }}</u></b> <!--item[0] contains the word and item[1] contains its meaning-->
                                             <p class="meaning_paragraph">
-                                                {% for word_meaning in out[1] %}
+                                                {% for word_meaning in item[1] %}
                                                     {{ word_meaning }}<br/>
                                                 {% endfor %}
                                             </p>

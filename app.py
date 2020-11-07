@@ -3,7 +3,7 @@ import pickle
 import nltk
 from PyDictionary import PyDictionary
 
-JACCARD_CUTOFF = 1.0
+MAX_WORD_LEN = 45
 MAX_RETURN_WORDS = 3
 
 app = flask.Flask(__name__, template_folder="./templates")
@@ -12,29 +12,29 @@ app = flask.Flask(__name__, template_folder="./templates")
 @app.route("/home", methods=['GET', 'POST'])
 def home():
     if flask.request.method == 'POST':
-        output_style = "output-text"
-        input_word = flask.request.form['input-text']
-        in_placeholder = "enter your word here and click submit to check for spelling" 
+        input_word = flask.request.form['input-text'].strip()
+        input_plchold_result_page = "enter your word here and click submit to check for spelling" + "\n\nlast entered word: " + input_word
+        result_to_render = None
+
         if len(input_word) == 0:
-            closest_words = ["Did you forget to input any word? 🤔"]
+            result_to_render = ["Did you forget to input any word? 🤔"]
         elif len(input_word) == 1:
-            closest_words = ["Cannot check spelling for a single letter! 😐"]
+            result_to_render = ["Cannot check spelling for a single letter! 😐"]
+        elif len(input_word) > MAX_WORD_LEN:
+            result_to_render = ["Word too long! You must be playing around 😋"]
         elif (len(input_word) > 1) and (len(input_word) <= 3):
-            closest_words = get_nearest_words(input_word, n_grams=2)
-            in_placeholder+="\n\nlast entered word: " + input_word
-        elif len(input_word) > 45:
-            closest_words = ["Word too long! You must be playing around 😋"]
+            near_words = get_near_words(input_word = input_word, n_grams=2, num_return_words=MAX_RETURN_WORDS)
+            result_to_render = get_output_content(near_words)
         else:
-            closest_words = get_nearest_words(input_word, n_grams=3)
-            in_placeholder+="\n\nlast entered word: " + input_word
-        return flask.render_template("home.html", output_style = output_style, 
-                                     input_placeholder = in_placeholder, output = closest_words)
+            near_words = get_near_words(input_word = input_word, n_grams=3, num_return_words=MAX_RETURN_WORDS)
+            result_to_render = get_output_content(near_words)
+        return flask.render_template("home.html", output_style = "output-with-content", 
+                                     input_placeholder = input_plchold_result_page, result = result_to_render)
     else:
-        output_style = "output-place-holder"
-        in_placeholder = "enter your word here and click submit to check for spelling"
-        out_placeholder = ["output will be displayed here"]
-        return flask.render_template("home.html", output_style = output_style, 
-                                     input_placeholder = in_placeholder, output = out_placeholder)
+        input_plchold = "enter your word here and click submit to check for spelling"
+        output_plchold = ["output will be displayed here"]
+        return flask.render_template("home.html", output_style = "output-without-content", 
+                                     input_placeholder = input_plchold, result = output_plchold)
 
 @app.route("/about", methods=['GET'])
 def about():
@@ -43,60 +43,84 @@ def about():
 with open("./data/vendor/nltk/vocab.pkl", "rb") as filehandler:
     vocab = pickle.load(filehandler)
     
-def get_nearest_words(input_word, n_grams=3):
-    input_word = input_word.lower().strip()
-    word_vocab = [w.lower() for w in vocab if w[0].lower()==input_word[0]] # only get the words from vocab whuch start with same letter as input word
-    input_word_ngrams = set(nltk.ngrams([w for w in input_word], n=n_grams))
-    jaccard_distance_list = []
-    for word in word_vocab:
-        word_ngrams = set(nltk.ngrams([w for w in word], n=n_grams))
-        jaccard_distance = nltk.jaccard_distance(input_word_ngrams, word_ngrams)
-        jaccard_distance_list.append((word, jaccard_distance))
-    closest_word_list = sorted(jaccard_distance_list, key=lambda x: x[1], reverse=False)
-    closest_word_list = filter_closest_word_list(closest_word_list)
-    spelling_correct = is_spelling_correct(input_word, closest_word_list)
-    output_text = get_output_text(spelling_correct, input_word, closest_word_list)
-    return output_text
+def get_near_words(input_word, n_grams, num_return_words = 3):
+    """Function returns a list of tuples of closest words for the input word by using the
+        jaccard distance metric for given n_grams.
 
-def filter_closest_word_list(closest_word_list):
-    return_list = []
-    for n in range(MAX_RETURN_WORDS):
-        if closest_word_list[n][1] < JACCARD_CUTOFF:
-            return_list.append(closest_word_list[n][0])
-    return return_list
+        Arguments:
+            input_word (str): word for which similar words are to be found
 
-def is_spelling_correct(word, closest_word_list):
-    if closest_word_list[0] == word:
-        return True
+            n_grams (int): grouping size for letters within a word. This grouping will be used 
+                            to calculate the jaccard distance for dissimilarity
+
+            num_return_words (int): number of words to return
+
+        Returns:
+            (list): a sorted list of near words according to jaccard distance. The word at
+                     the beginning of the list are more similar than the latter ones. If an exact match
+                     for the input word is found then same word is returned else number of words as specified
+                     in the parameter is returned
+    """
+    input_word = input_word.lower()
+    vocab_words_list = [w.lower() for w in vocab if w[0].lower()==input_word[0]] # only get the words from vocab which start with same letter as input word
+    input_word_ngrams = set(nltk.ngrams([ltr for ltr in input_word], n=n_grams))
+    near_words_list = []
+    for vocab_word in vocab_words_list:
+        vocab_word_ngrams = set(nltk.ngrams([ltr for ltr in vocab_word], n=n_grams))
+        jaccard_distance = nltk.jaccard_distance(input_word_ngrams, vocab_word_ngrams)
+        near_words_list.append((vocab_word, jaccard_distance))
+    near_words_list = sorted(near_words_list, key=lambda x: x[1], reverse=False)
+    near_words_list = [item[0] for item in near_words_list] #drop the jaccard distance
+    if near_words_list[0] == input_word:
+        return near_words_list[:1] #return only the matching word
     else:
-        return False
+        return near_words_list[:num_return_words]
 
-def get_output_text(spelling_correct, input_word, closest_word_list):
-    if spelling_correct:
-        dictionary = PyDictionary(input_word)
-        meanings_dict = dictionary.getMeanings()[input_word]
-        meaning_text = []
-        if meanings_dict is not None:
-            for key, value in meanings_dict.items():
-                meaning_text.append("{}: {}".format(key, value[0])) #include only first entry for each category of noun, verb etc
-            return ["Match found 😁. Did you mean?"] + [[input_word, meaning_text]]
-        else:
-            return ["Match found 😁. Did you mean?"] + [[input_word, 
-                    ["This word is in English vocab, but its meaning could not be found in built-in dictionary"]]]    
+def get_output_content(near_words_list):
+    """Function that returns the output to be rendered in the result webpage, after finding
+        the similar words, which is passed as a list
+
+    Arguments:
+        near_words_list (list): a list of strings
+
+    Returns:
+        (list): This list will have the format: 
+                 ['message', ['near_word_1',[meaning_n1_1, meaning_n1_2]], ['near_word_2',[meaning_n2_1, meaning_n2_2]]]
+                 This format is useful for rendering the content as seperate lines in html using jinja
+    """
+    if len(near_words_list)==1:
+        word_meaning_content = get_word_meaning_content(near_words_list)
+        return ["Match found 😁. Did you mean?"] + word_meaning_content
     else:
-        if len(closest_word_list) == 0:
-            return ["Strange word! You must be playing around 😋"]
+        word_meaning_content = get_word_meaning_content(near_words_list)
+        return ["Wrong spelling 😞 Some suggestions for you:"] + word_meaning_content
+
+def get_word_meaning_content(near_words_list):
+    """Function which attachs meaning to each word in the passed list of words
+        if it is found in PyDictionary
+
+        Arguments:
+            near_words_list (list): a list of strings
+
+        Returns:
+        (list): This list will have the format: 
+                 [['near_word_1',[meaning_n1_1, meaning_n1_2]], ['near_word_2',[meaning_n2_1, meaning_n2_2]]]
+                 This format is useful for rendering the content as seperate lines in html using jinja      
+    """
+    word_meaning_list = []
+    dictionary = PyDictionary(near_words_list)
+    for word, entry in dictionary.getMeanings().items():
+        word_entry_list = []
+        if entry is not None:
+            meaning_list = []
+            for part_of_speech, meaning in entry.items():
+                meaning_list.append("{}: {}".format(part_of_speech, meaning[0]))
+            word_entry_list.append([word, meaning_list])
         else:
-            word_plus_meaning_list = []
-            for word in closest_word_list:
-                dictionary = PyDictionary(word)
-                meanings_dict = dictionary.getMeanings()[word]
-                meaning_text = []
-                if meanings_dict is not None:
-                    for key, value in meanings_dict.items():
-                        meaning_text.append("{}: {}".format(key, value[0])) #include only first entry for each category of noun, verb etc
-                    word_plus_meaning_list.append([word, meaning_text])
-            return ["Wrong spelling 😞 Some suggestions for you:"] + word_plus_meaning_list
+            no_meaning_found = ["Can't find a meaning in built-in dictionary!"]
+            word_entry_list.append([word, no_meaning_found])
+        word_meaning_list += word_entry_list
+    return word_meaning_list
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=5000, debug=True)
