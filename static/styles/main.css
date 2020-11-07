@@ -142,8 +142,8 @@
   }
 
   .output-wrapper{
-    width: 400px;
-    height: 100px;
+    width: 600px;
+    min-height: 100px;
     background-color: var(--navbar-fill);
     color: black;
     font-size: 16px;
@@ -161,6 +161,11 @@
   .output-text{
     margin: 5px 5px 5px 5px;
     color: black;
+  }
+
+  .meaning_paragraph{
+    color: rgb(109, 109, 109);
+    font-family: monospace;
   }
 
   .footer-wrapper{

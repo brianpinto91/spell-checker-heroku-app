@@ -49,11 +49,20 @@
                 <div class="right-container">
                     <div class="output-wrapper">
                         <p class="{{ output_style }}">
-                            {% for item in output %}
+                            {% for out in output %}
                                 {% if loop.index0==0 %}
-                                    {{ item }}<br/>
+                                    {{ out }}<br/>
                                 {% else %}
-                                    <a href="https://dictionary.cambridge.org/dictionary/english/{{item}}" target="_blank">{{ item }}</a><br/>
+                                    <ul>
+                                        <li>
+                                            <b><u>{{ out[0] }}</u></b> <!--out[0] contains the word and out[1] contains its meaning-->
+                                            <p class="meaning_paragraph">
+                                                {% for word_meaning in out[1] %}
+                                                    {{ word_meaning }}<br/>
+                                                {% endfor %}
+                                            </p>
+                                        </li>
+                                    </ul>
                                 {% endif %}
                             {% endfor %}
                         </p>
