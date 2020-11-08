@@ -1,5 +1,4 @@
 import flask
-import pickle
 import nltk
 from PyDictionary import PyDictionary
 
@@ -40,8 +39,8 @@ def home():
 def about():
     return flask.render_template("about.html")
 
-with open("./data/vendor/nltk/vocab.pkl", "rb") as filehandler:
-    vocab = pickle.load(filehandler)
+with open("./data/vendor/nltk/vocab_en", "r") as filehandler:
+    vocab = [line for line in filehandler]
     
 def get_near_words(input_word, n_grams, num_return_words = 3):
     """Function returns a list of tuples of closest words for the input word by using the
@@ -123,5 +122,5 @@ def get_word_meaning_content(near_words_list):
     return word_meaning_list
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000)
     
