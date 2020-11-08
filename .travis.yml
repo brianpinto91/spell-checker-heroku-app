@@ -6,3 +6,4 @@ branches:
   only:
   - main
 install: "pip install -r requirements.txt"
+scripts: echo foo
