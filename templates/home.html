@@ -8,30 +8,18 @@
         <meta name="description" content="An application that can be used check spelling and get recomendation words">
         <meta name="keywords" content="SPELL-CHECK, ENGLISH, WEBAPP, HEROKU">
         <title>App: Spell Checker: Home</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Itim&display=swap">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     </head>
     <body>
         <header class="header">
-            <nav class="navbar">
-                <div class="navbar-left">
-                    <div class="nav-link-wrapper nav-link-active">
-                        <a href="{{ url_for('home') }}">Home</a>
-                    </div>
-                    <div class="nav-link-wrapper">
-                        <a href="{{ url_for('about') }}">About</a>
-                    </div>
-                </div>
-                <div class="navbar-right">
-                    <div class="my-name">
-                        Brian Pinto
-                    </div>
-                </div>
-            </nav>
+            <div class="app-heading">
+                <h1>Spell Checker and Recommender App</h1>
+                <h2>Welcome!</h2>
+            </div>
         </header>
         <main class=content>
-            <div class="app-heading">
-                <h1>Welcome to the SpellChecker App!</h1>
+            <div class="app-note">
                 <p style="font-family: monospace;">(The app currently supports <u>English</u> language only!)</p>
             </div>
             <div class="display-container">
@@ -68,6 +56,14 @@
                         </p>
                     </div>
                 </div>
+            </div>
+            <div class="app-note">
+                <p>
+                    For information about this <b>App</b> visit:<br/><br/>
+                    <a href="https://brianpinto91.github.io/spell-checker-heroku-app/" target="_blank">
+                        <img src="https://img.shields.io/badge/visit-project%20website-orange.svg?logo=Github" alt="project webiste link logo" style="height:25px;">
+                    </a>
+                </p> 
             </div>
         </main>
         <footer>
