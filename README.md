@@ -18,7 +18,7 @@ A web application which can be used to get spelling recommendations for words en
 
 Below is the screenshot of the application. You can check it out by clicking on the image.
 
-[![App: screenshot](https://imgur.com/qP4ZRpB.jpg)](https://spell-checker-eng.herokuapp.com/)
+[![App: screenshot](static/img/app-screenshot.png)](https://spell-checker-eng.herokuapp.com/)
 
 ## Motivation
 
@@ -38,7 +38,7 @@ For the deployment, [Heroku][heroku_link] application engine is used with [Flask
 
 Since, I use Linux for software development, I am covering the installation for Linux / Mac OS.
 
-##### Cloning the repository
+### Clone the repository
 
 On your computer, first navigate to the directory were you want to download the repository to. Then run the following commands:
 
@@ -48,7 +48,7 @@ cd spell-checker-app
 git clone --depth 1 https://github.com/brianpinto91/spell-checker-heroku-app.git
 ```
 
-##### Setup Virtual Environment
+### Setup Virtual Environment
 
 The app is built and tested using **Python 3.6.12**. Follow this [guide][python_install_link] to install it. Create a virtual environment where you can install the dependencies to run the python program. Follow this [guide][venv_setup_link] to setup a virtual environment. Once you have created one, please make sure that you activate it using the command (subsitute **your_env_path** with the absolute path where you saved your environment)
 
@@ -56,7 +56,7 @@ The app is built and tested using **Python 3.6.12**. Follow this [guide][python_
 source your_env_path/bin/activate
 ```
 
-##### Install the dependencies
+### Install the dependencies
 
 Before you install the dependencies update your pip and setuptools using:
 
@@ -71,7 +71,7 @@ Now, make sure you are in the root directory of this project that you created du
 pip install -r requirements.txt
 ```
 
-##### Running the App locally
+#### Run the App Locally
 
 To run using flask (for development purpose), use:
 
@@ -86,7 +86,7 @@ Alternatively, you can run with gunicorn (as used with deployment):
 gunicorn -b 127.0.0.1:5000 app:app
 ```
 
-##### Deployment on Heroku
+### Deploy on Heroku
 
 You need to create a [Heroku][heroku_link] account first, if you don't have one. Then in your command line run these commands one by one:
 
