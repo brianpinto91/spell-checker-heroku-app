@@ -8,7 +8,6 @@ MAX_RETURN_WORDS = 3
 app = flask.Flask(__name__, template_folder="./templates")
 
 @app.route("/", methods=['GET', 'POST'])
-@app.route("/home", methods=['GET', 'POST'])
 def home():
     if flask.request.method == 'POST':
         input_word = flask.request.form['input-text'].strip()
@@ -35,12 +34,8 @@ def home():
         return flask.render_template("home.html", output_style = "output-without-content", 
                                      input_placeholder = input_plchold, result = output_plchold)
 
-@app.route("/about", methods=['GET'])
-def about():
-    return flask.render_template("about.html")
-
 with open("./data/vendor/nltk/vocab_en", "r") as filehandler:
-    vocab = [line for line in filehandler]
+    vocab = [line.strip() for line in filehandler]
     
 def get_near_words(input_word, n_grams, num_return_words = 3):
     """Function returns a list of tuples of closest words for the input word by using the

@@ -1,6 +1,8 @@
 # Spell Checker and Recommender
 
+[![Build Status](https://travis-ci.com/brianpinto91/spell-checker-heroku-app.svg?branch=main)](https://travis-ci.com/brianpinto91/spell-checker-heroku-app)
 [![GitHub repo size](https://img.shields.io/github/repo-size/brianpinto91/spell-checker-heroku-app?logo=GitHub)]()
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/brianpinto91/spell-checker-heroku-app/main)](https://www.codefactor.io/repository/github/brianpinto91/spell-checker-heroku-app)
 
 A web application which can be used to get spelling recommendations for words entered by user in english language.
 
@@ -16,7 +18,7 @@ A web application which can be used to get spelling recommendations for words en
 
 Below is the screenshot of the application. You can check it out by clicking on the image.
 
-[![App: screenshot](https://imgur.com/qP4ZRpB.jpg)](https://spell-checker-eng.herokuapp.com/)
+[![App: screenshot](static/img/app-screenshot.png)](https://spell-checker-eng.herokuapp.com/)
 
 ## Motivation
 
@@ -36,24 +38,25 @@ For the deployment, [Heroku][heroku_link] application engine is used with [Flask
 
 Since, I use Linux for software development, I am covering the installation for Linux / Mac OS.
 
-##### Cloning the repository
+### Clone the repository
 
 On your computer, first navigate to the directory were you want to download the repository to. Then run the following commands:
 
 ```sh
 mkdir spell-checker-app
+cd spell-checker-app
 git clone --depth 1 https://github.com/brianpinto91/spell-checker-heroku-app.git
 ```
 
-##### Setup Virtual Environment
+### Setup Virtual Environment
 
-Create a virtual environment where you can install the dependencies to run the python program. Follow this [guide][venv_setup_link] to setup a virtual environment. Once you have created one, please make sure that you activate it using the command (subsitute **your_env_path** with the absolute path where you saved your environment)
+The app is built and tested using **Python 3.6.12**. Follow this [guide][python_install_link] to install it. Create a virtual environment where you can install the dependencies to run the python program. Follow this [guide][venv_setup_link] to setup a virtual environment. Once you have created one, please make sure that you activate it using the command (subsitute **your_env_path** with the absolute path where you saved your environment)
 
 ```sh
 source your_env_path/bin/activate
 ```
 
-##### Install the dependencies
+### Install the dependencies
 
 Before you install the dependencies update your pip and setuptools using:
 
@@ -68,7 +71,7 @@ Now, make sure you are in the root directory of this project that you created du
 pip install -r requirements.txt
 ```
 
-##### Running the App locally
+#### Run the App Locally
 
 To run using flask (for development purpose), use:
 
@@ -83,7 +86,7 @@ Alternatively, you can run with gunicorn (as used with deployment):
 gunicorn -b 127.0.0.1:5000 app:app
 ```
 
-##### Deployment on Heroku
+### Deploy on Heroku
 
 You need to create a [Heroku][heroku_link] account first, if you don't have one. Then in your command line run these commands one by one:
 
@@ -108,19 +111,30 @@ In my repository I have used **app** as the name of my main file and also for th
 
 ## Technologies
 
+[![Python: shield](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+[![HTML: shield](https://forthebadge.com/images/badges/uses-html.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)<br/><br/>
+[<img target="_blank" src="https://flask.palletsprojects.com/en/1.1.x/_images/flask-logo.png" height=50>](https://flask.palletsprojects.com/en/1.1.x/)
+[<img target="_blank" src="https://number1.co.za/wp-content/uploads/2017/10/gunicorn_logo-300x85.png" height=50>](https://gunicorn.org)
+[<img target="_blank" src="static/img/jinja-logo.png" height=50>](https://heroku.com)<br/>
+[<img target="_blank" src="static/img/built-on-heroku-dark.svg" height=70>](https://heroku.com)
+
 
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
-[flask_link]:(https://flask.palletsprojects.com/en/1.1.x/api/)
-[gunicorn_link]:(https://gunicorn.org/)
-[heroku_link]:(https://www.heroku.com/)
-[jinja_link]:(https://jinja.palletsprojects.com/en/2.11.x/)
-[travis_link]:(https://travis-ci.com/)
-[pydict_link]:(https://pypi.org/project/PyDictionary/)
-[nltk_corpus_link]:(http://www.nltk.org/nltk_data/)
-[jaccard_link]:(https://www.nltk.org/_modules/nltk/metrics/distance.html#jaccard_distance)
-[jaccard_article_link]:(https://python.gotrained.com/nltk-edit-distance-jaccard-distance/)
-[ngrams_link]:(https://en.wikipedia.org/wiki/N-gram)
-[venv_setup_link]:(https://docs.python.org/3/library/venv.html)
+Copyright 2020 Brian Pinto
+
+[python_install_link]: https://docs.python-guide.org/starting/install3/linux/
+[flask_link]: https://flask.palletsprojects.com/en/1.1.x/api/
+[gunicorn_link]: https://gunicorn.org/
+[heroku_link]: https://www.heroku.com/
+[jinja_link]: https://jinja.palletsprojects.com/en/2.11.x/
+[travis_link]: https://travis-ci.com/
+[pydict_link]: https://pypi.org/project/PyDictionary/
+[nltk_corpus_link]: http://www.nltk.org/nltk_data/
+[jaccard_link]: https://www.nltk.org/_modules/nltk/metrics/distance.html#jaccard_distance
+[jaccard_article_link]: https://python.gotrained.com/nltk-edit-distance-jaccard-distance/
+[ngrams_link]: https://en.wikipedia.org/wiki/N-gram
+[venv_setup_link]: https://docs.python.org/3/library/venv.html
